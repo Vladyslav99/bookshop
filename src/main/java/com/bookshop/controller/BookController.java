@@ -5,10 +5,7 @@ import com.bookshop.entity.Category;
 import com.bookshop.exception.EntityNotFoundException;
 import com.bookshop.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +25,10 @@ public class BookController {
     public Book one(@PathVariable Long id) {
         return bookService.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Entity %s with id %s not found", Book.class, id)));
+    }
+
+    @PostMapping(ControllerConstants.Mapping.BOOKS)
+    public Book newBook(@RequestBody Book book) {
+        return bookService.save(book);
     }
 }
