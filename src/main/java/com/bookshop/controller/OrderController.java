@@ -1,5 +1,6 @@
 package com.bookshop.controller;
 
+import com.bookshop.bot.BookBot;
 import com.bookshop.entity.Book;
 import com.bookshop.entity.Order;
 import com.bookshop.exception.EntityNotFoundException;
@@ -21,8 +22,12 @@ public class OrderController {
     @Autowired
     private BookService bookService;
 
-    @PostMapping("/orders/new")
-    public Order newOrder(@RequestBody Long bookId){
+    @Autowired
+    private BookBot bookBot;
+
+    @GetMapping("/orders/new")
+    public Order newOrder(@RequestParam Long bookId){
+        bookBot.broadcastAdmins(String.format("New book(#%s) order", bookId));
         Book book = bookService.findById(bookId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Entity %s with id %s not found", Book.class, bookId)));
