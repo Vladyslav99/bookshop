@@ -1,18 +1,16 @@
 package com.bookshop.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "ORDERS")
@@ -27,5 +25,5 @@ public class Order {
     private BigDecimal commonPrice;
 
     @ManyToMany
-    private Set<Book> books;
+    private List<Book> books;
 }

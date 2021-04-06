@@ -1,7 +1,6 @@
 package com.bookshop.controller;
 
 import com.bookshop.entity.Book;
-import com.bookshop.entity.Category;
 import com.bookshop.exception.EntityNotFoundException;
 import com.bookshop.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;

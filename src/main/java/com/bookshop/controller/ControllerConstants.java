@@ -9,5 +9,6 @@ public class ControllerConstants {
 
         String CATEGORIES = "/categories";
         String BOOKS = "/books";
+        String ORDERS = "/orders";
     }
 }
