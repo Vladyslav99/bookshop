@@ -7,8 +7,6 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.Optional;
-
 @Component
 public class BookBot extends TelegramLongPollingBot {
 
@@ -34,13 +32,11 @@ public class BookBot extends TelegramLongPollingBot {
         if (!update.hasMessage() && !update.getMessage().hasText())
             return;
 
-        String text = update.getMessage().getText();
+        final String text = update.getMessage().getText();
         final long chatId = update.getMessage().getChatId();
 
-        BotUser user;
-        Optional<BotUser> botUserOptional = userService.findByChatId(chatId);
-
-        user = botUserOptional.orElseGet(() -> userService.save(new BotUser(null, chatId, text.equals(SECRET_MSG))));
+        BotUser user = userService.findByChatId(chatId)
+                .orElseGet(() -> userService.save(new BotUser(null, chatId, text.equals(SECRET_MSG))));
 
         isAdminCommand(user, text);
     }
