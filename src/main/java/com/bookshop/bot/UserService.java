@@ -19,6 +19,11 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public List<BotUser> findAllAdmins() {
+        return userRepository.findAllByAdminTrue();
+    }
+
+    @Transactional(readOnly = true)
     public Optional<BotUser> findByChatId(long id) {
         return userRepository.findByChatId(id);
     }

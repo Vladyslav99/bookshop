@@ -17,6 +17,7 @@ public class BookBot extends TelegramLongPollingBot {
 
     private static final String SECRET_MSG = "/make_me_admin";
     private static final String BROADCAST = "/broadcast";
+    private static final String BROADCAST_ADMINS = "/admins";
 
     @Override
     public String getBotUsername() {
@@ -49,9 +50,13 @@ public class BookBot extends TelegramLongPollingBot {
             user.setAdmin(true);
             userService.save(user);
         }
-        if (text.contains(BROADCAST) && user.isAdmin()) {
+        if (user.isAdmin() && text.contains(BROADCAST)) {
             text = text.substring(BROADCAST.length());
             broadcast(text);
+        }
+        if (user.isAdmin() && text.contains(BROADCAST_ADMINS)) {
+            text = text.substring(BROADCAST_ADMINS.length());
+            broadcastAdmins(text);
         }
     }
 
@@ -61,7 +66,11 @@ public class BookBot extends TelegramLongPollingBot {
         execute(sendMessage);
     }
 
+    public void broadcastAdmins(String text) {
+        userService.findAllAdmins().forEach(user -> sendMessage(user.getChatId(), text));
+    }
+
     public void broadcast(String text) {
-        userService.findAll().forEach((user) -> sendMessage(user.getChatId(), text));
+        userService.findAll().forEach(user -> sendMessage(user.getChatId(), text));
     }
 }
