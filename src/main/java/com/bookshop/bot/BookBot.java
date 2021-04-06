@@ -39,11 +39,7 @@ public class BookBot extends TelegramLongPollingBot {
         BotUser user;
         Optional<BotUser> botUserOptional = userService.findByChatId(chatId);
 
-        if (botUserOptional.isPresent()) {
-            user = botUserOptional.get();
-        } else {
-            user = userService.save(new BotUser(null, chatId, text.equals(SECRET_MSG)));
-        }
+        user = botUserOptional.orElseGet(() -> userService.save(new BotUser(null, chatId, text.equals(SECRET_MSG))));
 
         isAdminCommand(user, text);
     }
