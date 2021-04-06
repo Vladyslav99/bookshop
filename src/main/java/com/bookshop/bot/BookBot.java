@@ -29,7 +29,6 @@ public class BookBot extends TelegramLongPollingBot {
     }
 
     @Override
-    @SneakyThrows
     public void onUpdateReceived(Update update) {
         if (!update.hasMessage() && !update.getMessage().hasText())
             return;
@@ -46,11 +45,14 @@ public class BookBot extends TelegramLongPollingBot {
             user = userService.save(new BotUser(null, chatId, text.equals(SECRET_MSG)));
         }
 
+        isAdminCommand(user, text);
+    }
+
+    private void isAdminCommand(BotUser user, String text) {
         if (text.contains(SECRET_MSG)) {
             user.setAdmin(true);
             userService.save(user);
         }
-
         if (text.contains(BROADCAST) && user.isAdmin()) {
             text = text.substring(BROADCAST.length());
             broadcast(text);
