@@ -24,6 +24,10 @@ public class Order {
 
     private BigDecimal commonPrice;
 
+    private String address;
+
+    private String phone;
+
     @ManyToMany
     private List<Book> books;
 }

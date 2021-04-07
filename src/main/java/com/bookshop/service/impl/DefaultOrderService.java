@@ -29,4 +29,9 @@ public class DefaultOrderService implements OrderService {
     public List<Order> findAll() {
         return orderRepository.findAll();
     }
+
+    @Override
+    public void delete(Long id) {
+        orderRepository.deleteById(id);
+    }
 }
